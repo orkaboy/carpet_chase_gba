@@ -3,6 +3,23 @@
 #include <tonc.h>
 
 #include "gamestate.h"
+#include "collision.h"
+
+// Keep an array of bounding boxes for collision rather than creating them each frame
+#define BB_PLAYER 0
+#define BB_BOSS 1
+#define BB_SPELL 2
+#define BB_SHIELD 3
+#define BB_SHIELD_POWERUP 4
+static bounding_box_t _bbs[5];
+
+void _update_bb(int index, int x, int y, int w, int h) {
+    bounding_box_t* bb = &_bbs[index];
+    bb->right = x + w;
+    bb->left = x;
+    bb->top = y;
+    bb->bottom = y + h;
+}
 
 void update_game(void) {
     // ============================
@@ -35,6 +52,8 @@ void update_game(void) {
     // ============================
     // Logic section
     // ============================
+    update_wizard_frame(&player);
+    update_wizard_frame(&boss);
 
     // Set the new positions
     move_wizard(&boss, 0, 0);
