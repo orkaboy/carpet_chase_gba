@@ -4,17 +4,28 @@
 #include "gamelogic.h"
 #include "gfx.h"
 
+#include <maxmod.h>
+#include "soundbank.h"
+#include "soundbank_bin.h"
+
 int main(void)
 {
 	// Init interrupts and VBlank irq.
 	irq_init(NULL);
-	irq_add(II_VBLANK, NULL);
+    // Add Maxmod IRQ handler
+	irq_add(II_VBLANK, mmVBlank);
+
+    // Load Maxmod music
+    mmInitDefault((mm_addr)soundbank_bin, 8);
 
     // Set start rand seed
     sqran(0);
 
     init_gfx();
     init_game();
+
+    // Start the Maxmod music on loop
+    mmStart(MOD_ARABIA_2, MM_PLAY_LOOP);
 
 	while(1)
 	{
@@ -24,6 +35,8 @@ int main(void)
         update_gfx();
         // Wait for VBlank, so it's safe to update OAM
 		VBlankIntrWait();
+        // Maxmod, update music
+		mmFrame();
         // Copy OAM shadow buffer etc.
         update_vblank();
 	}
