@@ -10,17 +10,20 @@ void update_game(void) {
     // ============================
     // libtonc: Update keypresses
     key_poll();
-    // Fetch +1,0,-1 on X and Y D-pad
-    int xdir = key_tri_horz();
-    int ydir = key_tri_vert();
+    // Check for reset (Se+St+L+R)
     if(KEY_EQ(key_held, KEY_RESET)) {
         SoftReset();
     }
+    // Fire
     if(key_hit(KEY_A)) {
         // TODO: Fire button
         boss.hp--;
     }
-    // TODO: Scale axis
+    
+    // Player movement logic
+    // Fetch +1,0,-1 on X and Y D-pad
+    int xdir = key_tri_horz();
+    int ydir = key_tri_vert();
     FIXED ydiff = 0;
     if(ydir > 0) { // Move down
         ydiff += P_SPEED_DOWN;
