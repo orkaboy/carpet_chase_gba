@@ -20,9 +20,8 @@ int main(void)
 
         // Wait for VBlank, so it's safe to update OAM
 		VBlankIntrWait();
-        // Copy OAM shadow buffer
-        update_oam();
-        // TODO: Any other graphics regs that should be updated here?
+        // Copy OAM shadow buffer etc.
+        update_vblank();
 	}
 
 	return 0;
