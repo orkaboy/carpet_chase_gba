@@ -41,3 +41,52 @@ void draw_boss_hp(void) {
         }
     }
 }
+
+#define UPPERCASE_OFF   1
+#define LOWERCASE_OFF   1
+#define NUMBER_OFF      27
+#define SPACE_OFF       47
+
+int ascii_to_tid(char glyph) {
+    if(glyph >= 'A' && glyph <= 'Z') {
+        return glyph - 'A' + UPPERCASE_OFF;
+    }
+    if(glyph >= 'a' && glyph <= 'z') {
+        return glyph - 'a' + LOWERCASE_OFF;
+    }
+    if(glyph >= '0' && glyph <= '9') {
+        return glyph - '0' + NUMBER_OFF;
+    }
+    switch(glyph) {
+        case '!':
+            return 37;
+        case ':':
+            return 38;
+        case '?':
+            return 39;
+        case '/':
+            return 40;
+        case '=':
+            return 41;
+        case ',':
+            return 42;
+        case '.':
+            return 43;
+        default:
+            return SPACE_OFF;
+    }
+}
+
+#define TEXT_START_X    7
+#define TEXT_STOP_X     (TEXT_START_X+12)
+
+void render_text(char* text) {
+    int x = TEXT_START_X;
+    for(int i = 0; x < TEXT_STOP_X && text[i] != '\0'; ++x, ++i) {
+        int tid = ascii_to_tid(text[i]);
+        se_mem[TEXT_SBB][x] = SE_PALBANK(PAL_UI) | tid;
+    }
+    for(; x < TEXT_STOP_X; ++x) {
+        se_mem[TEXT_SBB][x] = SE_PALBANK(PAL_UI) | EMPTY_TID;
+    }
+}

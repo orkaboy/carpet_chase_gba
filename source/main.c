@@ -3,6 +3,7 @@
 #include "gamestate.h"
 #include "gamelogic.h"
 #include "gfx.h"
+#include "ui.h"
 
 #include <maxmod.h>
 #include "soundbank.h"
@@ -23,6 +24,8 @@ int main(void)
 
     init_gfx();
     init_game();
+
+    render_text("     Wizard!");
 
     // Start the Maxmod music on loop
     mmStart(MOD_ARABIA_2, MM_PLAY_LOOP);
