@@ -2,6 +2,8 @@
 
 #include <tonc.h>
 
+#include "gamestate.h"
+
 void update_game(void) {
     // ============================
     // Input section
@@ -14,9 +16,13 @@ void update_game(void) {
     if(key_is_down(KEY_A)) {
         // TODO: Fire button
     }
+    // TODO: Scale axis
+    move_wizard(&player, xdir * FIX_ONE, ydir * FIX_ONE);
 
     // ============================
     // Logic section
     // ============================
 
+    // Set the new positions
+    move_wizard(&boss, 0, 0);
 }

@@ -1,5 +1,6 @@
 #include <tonc.h>
 
+#include "gamestate.h"
 #include "gamelogic.h"
 #include "gfx.h"
 
@@ -9,15 +10,18 @@ int main(void)
 	irq_init(NULL);
 	irq_add(II_VBLANK, NULL);
 
+    // Set start rand seed
+    sqran(0);
+
     init_gfx();
+    init_game();
 
 	while(1)
 	{
         // Update game logic
         update_game();
-
-        // TODO: Update graphics (sprites update shadow OAM)
-
+        // Update graphics (sprites update shadow OAM)
+        update_gfx();
         // Wait for VBlank, so it's safe to update OAM
 		VBlankIntrWait();
         // Copy OAM shadow buffer etc.
