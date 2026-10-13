@@ -6,25 +6,10 @@
 #include "sprites.h"
 
 #include "gamestate.h"
+#include "ui.h"
 
 // OAM shadow buffer
 OBJ_ATTR obj_buffer[NUM_HW_SPRITES];
-
-// BG layer 0 used for HUD
-#define TEXT_CBB 1
-#define TEXT_SBB 31
-// Define BGs in VRAM
-#define BG1_CBB 0
-#define BG1_SBB 30
-// Sprite CBB
-#define OAM_CBB 4
-
-// Background palettes
-#define PAL_UI 0
-#define PAL_BG 1
-// Sprite palettes
-#define PAL_SPR 0
-
 
 INLINE void clear_ui(void) {
     memset16(&se_mem[TEXT_SBB][0], SE_PALBANK(PAL_UI) | 47, 32);
@@ -82,6 +67,9 @@ void update_gfx(void) {
     // ======================================
     draw_wizard(&player);
     draw_wizard(&boss);
+
+    draw_player_hp();
+    draw_boss_hp();
 }
 
 int bg_y_pos = 0;

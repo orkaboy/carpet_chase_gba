@@ -13,8 +13,9 @@ void update_game(void) {
     // Fetch +1,0,-1 on X and Y D-pad
     int xdir = key_tri_horz();
     int ydir = key_tri_vert();
-    if(key_is_down(KEY_A)) {
+    if(key_hit(KEY_A)) {
         // TODO: Fire button
+        boss.hp--;
     }
     // TODO: Scale axis
     move_wizard(&player, xdir * FIX_ONE, ydir * FIX_ONE);
