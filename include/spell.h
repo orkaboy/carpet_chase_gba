@@ -29,14 +29,14 @@ extern spell_t spell_pool[NUM_SPELLS];
 
 void init_spell_manager(void);
 
-int spawn_spell(int player_pool, int x, int y, FIXED velx, FIXED vely);
+int spawn_spell(int player_pool, FIXED x, FIXED y, FIXED velx, FIXED vely);
 
 INLINE int spawn_player_spell(void) {
     // Spawn a spell above the player, moving upwards
     return spawn_spell(1, player.x, player.y - SPELL_SPAWN_OFF, 0, PLAYER_SPELL_SPEED);
 }
 
-INLINE int spawn_enemy_spell(int x, int y, FIXED velx, FIXED vely) {
+INLINE int spawn_enemy_spell(FIXED x, FIXED y, FIXED velx, FIXED vely) {
     return spawn_spell(0, x, y, velx, vely);
 }
 

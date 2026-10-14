@@ -4,6 +4,7 @@
 #include <tonc.h>
 #include "wizard.h"
 #include "shield.h"
+#include "boss_ai.h"
 
 #define SECONDS(x) (60*x)
 
@@ -42,9 +43,23 @@
 #define SHIELD_HITBOX_W 12
 #define SHIELD_HITBOX_H 8
 
+// Boss wave motion
+#define BOSS_ACC_Y          float2fx(1.0/32)
+#define BOSS_PEAK_Y_SPEED   int2fx(1)
+
+// Boss AI patterns (hp thresholds)
+#define BOSS_PHASE_1        235
+#define BOSS_PHASE_2        180
+#define BOSS_PHASE_3        120
+#define BOSS_PHASE_4        60
+
+#define BOSS_SPELL_SPEED int2fx(2)
+#define BOSS_SPELL_SPEED4 int2fx(3)
+
 extern wizard_t player;
-extern wizard_t boss;
 extern shield_t shield;
+extern wizard_t boss;
+extern boss_ai_t boss_ai;
 
 void init_game(void);
 

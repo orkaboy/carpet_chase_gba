@@ -20,7 +20,7 @@ void init_spell_manager(void) {
     }
 }
 
-int spawn_spell(int player_pool, int x, int y, FIXED velx, FIXED vely) {
+int spawn_spell(int player_pool, FIXED x, FIXED y, FIXED velx, FIXED vely) {
     int idx = (player_pool) ? NUM_E_SPELLS : 0;
     const int top = (player_pool) ? NUM_SPELLS : NUM_E_SPELLS;
     spell_t* s = &spell_pool[idx];

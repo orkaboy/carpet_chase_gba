@@ -8,6 +8,7 @@
 #include "collision.h"
 #include "spell.h"
 #include "ui.h"
+#include "boss_ai.h"
 
 static int player_spell_cd = 0;
 
@@ -94,6 +95,12 @@ void update_game(void) {
         }
     }
 
-    // Set the new positions
+    // ============================
+    // AI section
+    // ============================
+    update_boss_wave(&boss_ai);
+    update_boss_ai(&boss_ai);
+
+    // Set the new sprite position
     move_wizard(&boss, 0, 0);
 }
