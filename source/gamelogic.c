@@ -8,22 +8,6 @@
 #include "collision.h"
 #include "spell.h"
 
-// Keep an array of bounding boxes for collision rather than creating them each frame
-#define BB_PLAYER 0
-#define BB_BOSS 1
-#define BB_SPELL 2
-#define BB_SHIELD 3
-#define BB_SHIELD_POWERUP 4
-static bounding_box_t _bbs[5];
-
-void _update_bb(int index, int x, int y, int w, int h) {
-    bounding_box_t* bb = &_bbs[index];
-    bb->right = x + w;
-    bb->left = x;
-    bb->top = y;
-    bb->bottom = y + h;
-}
-
 static int player_spell_cd = 0;
 
 void update_game(void) {
@@ -41,6 +25,10 @@ void update_game(void) {
         spawn_player_spell();
         player_spell_cd = PLAYER_SPELL_CD;
         mmEffect(SFX_LASER);
+    }
+    // TODO: TEMP
+    if(key_held(KEY_B)) {
+        //spawn_enemy_spell(boss.x, boss.y + SPELL_SPAWN_OFF, 0, -PLAYER_SPELL_SPEED);
     }
 
     // Player movement logic
@@ -67,7 +55,14 @@ void update_game(void) {
     update_wizard_frame(&player);
     update_wizard_frame(&boss);
 
+    update_bb(BB_PLAYER, fx2int(player.x)-PLAYER_HITBOX/2, fx2int(player.y)-PLAYER_HITBOX/2, PLAYER_HITBOX, PLAYER_HITBOX);
+    update_bb(BB_BOSS, fx2int(boss.x)-BOSS_HITBOX/2, fx2int(boss.y)-BOSS_HITBOX/2, BOSS_HITBOX, BOSS_HITBOX);
+
+    update_shield(&shield);
     update_spells();
+
+    // TODO: Check collisions
+
 
     // Set the new positions
     move_wizard(&boss, 0, 0);

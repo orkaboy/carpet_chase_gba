@@ -3,6 +3,12 @@
 
 #include <tonc.h>
 
+// Keep an array of bounding boxes for collision rather than creating them each frame
+#define BB_PLAYER 0
+#define BB_BOSS 1
+#define BB_SPELL 2
+#define BB_SHIELD 3
+
 typedef struct bounding_box_t {
     int left;
     int right;
@@ -10,6 +16,7 @@ typedef struct bounding_box_t {
     int bottom;
 } bounding_box_t;
 
-int check_collision(bounding_box_t* a, bounding_box_t* b);
+int check_collision(int a, int b);
+void update_bb(int index, int x, int y, int w, int h);
 
 #endif

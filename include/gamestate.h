@@ -3,6 +3,9 @@
 
 #include <tonc.h>
 #include "wizard.h"
+#include "shield.h"
+
+#define SECONDS(x) (60*x)
 
 #define SCREEN_WIDTH 240
 #define SCREEN_HEIGHT 160
@@ -20,14 +23,27 @@
 #define PLAYER_MAX_HP 5
 #define BOSS_MAX_HP 255
 
+#define PLAYER_HITBOX 8
+#define BOSS_HITBOX 12
+
 #define P_SPEED_SIDEWAYS float2fx(1.5)
 #define P_SPEED_UP float2fx(1.0)
 #define P_SPEED_DOWN float2fx(1.75)
 
 #define PLAYER_SPELL_CD 10
 
+// In frames
+#define SHIELD_INIT_COOLDOWN SECONDS(10)
+#define SHIELD_COOLDOWN SECONDS(5)
+#define SHIELD_Y_SPEED float2fx(0.5)
+
+#define SHIELD_DURATION SECONDS(3)
+#define SHIELD_HITBOX_W 12
+#define SHIELD_HITBOX_H 8
+
 extern wizard_t player;
 extern wizard_t boss;
+extern shield_t shield;
 
 void init_game(void);
 

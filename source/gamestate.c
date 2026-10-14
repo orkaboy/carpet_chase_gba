@@ -5,10 +5,12 @@
 
 wizard_t player;
 wizard_t boss;
+shield_t shield;
 
 void init_game(void) {
     init_wizard(&player, 0, SPRITE_P_WIZARD, PLAYER_MAX_HP);
     init_wizard(&boss, 16, SPRITE_E_WIZARD, BOSS_MAX_HP);
+    init_shield(&shield);
 
     init_spell_manager();
 
