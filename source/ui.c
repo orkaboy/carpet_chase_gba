@@ -3,7 +3,8 @@
 #include "gamestate.h"
 #include "gfx.h"
 
-#define GLOW_ID             5
+#define GLOW_COL_IDX        5
+#define TEXT_COL_IDX        15
 
 #define EMPTY_TID           47
 #define FILLED_HEART_TID    48
@@ -97,4 +98,21 @@ void render_text(int xoff, char* text, COLOR col) {
     for(; x < TEXT_STOP_X; ++x) {
         se_mem[TEXT_SBB][x] = SE_PALBANK(PAL_UI) | EMPTY_TID;
     }
+}
+
+#define COLOR_GLOW_TOP 250
+#define COLOR_GLOW_BOT 10
+static int _color_cnt = 0;
+static int _color_delta = 1;
+
+void update_ui_glow(void) {
+    _color_cnt += _color_delta;
+    if(_color_cnt >= COLOR_GLOW_TOP) {
+        _color_cnt = COLOR_GLOW_TOP;
+        _color_delta *= -1;
+    } else if(_color_cnt <= COLOR_GLOW_BOT) {
+        _color_cnt = COLOR_GLOW_BOT;
+        _color_delta *= -1;
+    }
+    pal_bg_mem[PAL_UI*16+GLOW_COL_IDX] = RGB15(255, _color_cnt, _color_cnt);
 }

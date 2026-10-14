@@ -15,7 +15,6 @@
 // Background palettes
 #define PAL_UI 0
 #define PAL_BG 1
-#define TEXT_COL_IDX 15
 // Sprite palettes
 #define PAL_SPR 0
 

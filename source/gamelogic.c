@@ -7,6 +7,7 @@
 #include "gamestate.h"
 #include "collision.h"
 #include "spell.h"
+#include "ui.h"
 
 static int player_spell_cd = 0;
 
@@ -48,6 +49,8 @@ void update_game(void) {
     // Timers
     // ============================
     player_spell_cd = (player_spell_cd > 0) ? player_spell_cd-1 : 0;
+
+    update_ui_glow();
 
     // ============================
     // Logic section

@@ -8,4 +8,6 @@ void draw_boss_hp(void);
 
 void render_text(int xoff, char* text, COLOR col);
 
+void update_ui_glow(void);
+
 #endif
