@@ -46,6 +46,21 @@
 // OAM shadow buffer
 extern OBJ_ATTR obj_buffer[NUM_HW_SPRITES];
 
+INLINE void draw_sprite(int hwsprite, int tid) {
+    obj_set_attr(&obj_buffer[hwsprite], ATTR0_SQUARE, ATTR1_SIZE_16, ATTR2_PRIO(1) | ATTR2_PALBANK(PAL_SPR) | tid);
+}
+
+INLINE void hide_sprite(int hwsprite) {
+    oam_init(&obj_buffer[hwsprite], 1);
+}
+
+#define SPRITE_SIZE 16
+#define SPRITE_HSIZE (SPRITE_SIZE/2)
+
+INLINE void move_sprite(int hwsprite, int x, int y) {
+    obj_set_pos(&obj_buffer[hwsprite], x-SPRITE_HSIZE, y-SPRITE_HSIZE);
+}
+
 void init_gfx(void);
 void update_gfx(void);
 // Updates that need to be done during vblank, like updating OAM

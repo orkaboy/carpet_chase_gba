@@ -26,9 +26,9 @@ void move_wizard(wizard_t* wizard, FIXED dx, FIXED dy) {
 void draw_wizard(wizard_t* wizard) {
     // Move the OAM objects in the shadow OAM
     // Move wizard sprite
-    obj_set_pos(&obj_buffer[wizard->hwsprite], fx2int(wizard->x), WIZ_CARPET_OFFSET + fx2int(wizard->y));
+    move_sprite(wizard->hwsprite, fx2int(wizard->x), WIZ_CARPET_OFFSET + fx2int(wizard->y));
     // Move carpet sprite
-    obj_set_pos(&obj_buffer[wizard->hwsprite+2], fx2int(wizard->x), fx2int(wizard->y));
+    move_sprite(wizard->hwsprite+2, fx2int(wizard->x), fx2int(wizard->y));
 }
 
 void update_wizard_frame(wizard_t* wizard) {
@@ -42,10 +42,8 @@ void update_wizard_frame(wizard_t* wizard) {
         }
     }
     // Update shadow OAM
-    obj_set_attr(
-        &obj_buffer[wizard->hwsprite],
-        ATTR0_SQUARE,
-        ATTR1_SIZE_16,
-        ATTR2_PALBANK(PAL_SPR) | (wizard->tile_off+4*wizard->anim_frame)
+    draw_sprite(
+        wizard->hwsprite,
+        wizard->tile_off+4*wizard->anim_frame
     );
 }

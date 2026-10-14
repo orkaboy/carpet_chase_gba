@@ -17,10 +17,10 @@ INLINE void clear_ui(void) {
 
 void init_sprites(void) {
     // Init wizards
-    obj_set_attr(&obj_buffer[SPRITE_P_WIZARD], ATTR0_SQUARE, ATTR1_SIZE_16, ATTR2_PALBANK(PAL_SPR) | 0);
-    obj_set_attr(&obj_buffer[SPRITE_E_WIZARD], ATTR0_SQUARE, ATTR1_SIZE_16, ATTR2_PALBANK(PAL_SPR) | 16);
-    obj_set_attr(&obj_buffer[SPRITE_P_CARPET], ATTR0_SQUARE, ATTR1_SIZE_16, ATTR2_PALBANK(PAL_SPR) | 32);
-    obj_set_attr(&obj_buffer[SPRITE_E_CARPET], ATTR0_SQUARE, ATTR1_SIZE_16, ATTR2_PALBANK(PAL_SPR) | 32);
+    draw_sprite(SPRITE_P_WIZARD, 0);
+    draw_sprite(SPRITE_E_WIZARD, 16);
+    draw_sprite(SPRITE_P_CARPET, 32);
+    draw_sprite(SPRITE_E_CARPET, 32);
 }
 
 void init_gfx(void) {
