@@ -17,6 +17,7 @@ void init_wizard(wizard_t* wizard, int tile_off, int hwsprite, int hp);
 void move_wizard(wizard_t* wizard, FIXED dx, FIXED dy);
 void draw_wizard(wizard_t* wizard);
 void update_wizard_frame(wizard_t* wizard);
+void restrain_wizard(wizard_t* wizard);
 
 INLINE int is_wizard_alive(wizard_t* wizard) {
     return wizard->hp > 0;

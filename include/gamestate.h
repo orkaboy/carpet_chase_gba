@@ -4,6 +4,14 @@
 #include <tonc.h>
 #include "wizard.h"
 
+#define SCREEN_WIDTH 240
+#define SCREEN_HEIGHT 160
+
+#define BORDER_LEFT     int2fx(8)
+#define BORDER_RIGHT    int2fx(SCREEN_WIDTH - 8)
+#define BORDER_BOTTOM   int2fx(SCREEN_HEIGHT - 16)
+#define BORDER_TOP      int2fx(72)
+
 #define PLAYER_MAX_HP 5
 #define BOSS_MAX_HP 255
 

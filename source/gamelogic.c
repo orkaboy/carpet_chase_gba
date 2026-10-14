@@ -48,6 +48,7 @@ void update_game(void) {
         ydiff -= P_SPEED_UP;
     }
     move_wizard(&player, xdir * P_SPEED_SIDEWAYS, ydiff);
+    restrain_wizard(&player);
 
     // ============================
     // Logic section

@@ -1,6 +1,7 @@
 #include "wizard.h"
 #include <tonc.h>
 #include "gfx.h"
+#include "gamestate.h"
 
 #define WIZ_CARPET_OFFSET -5
 #define WIZARD_ANIM_FRAMES 4
@@ -21,6 +22,13 @@ void move_wizard(wizard_t* wizard, FIXED dx, FIXED dy) {
     // Move wizard
     wizard->x += dx;
     wizard->y += dy;
+}
+
+void restrain_wizard(wizard_t* wizard) {
+    if(wizard->x < BORDER_LEFT) wizard->x = BORDER_LEFT;
+    else if(wizard->x > BORDER_RIGHT) wizard->x = BORDER_RIGHT;
+    if(wizard->y < BORDER_TOP) wizard->y = BORDER_TOP;
+    else if(wizard->y > BORDER_BOTTOM) wizard->y = BORDER_BOTTOM;
 }
 
 void draw_wizard(wizard_t* wizard) {

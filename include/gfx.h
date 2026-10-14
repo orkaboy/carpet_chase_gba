@@ -20,10 +20,6 @@
 #define PAL_SPR 0
 
 
-
-#define SCREEN_WIDTH 240
-#define SCREEN_HEIGHT 160
-
 // Define sprite positions in OAM
 #define SPRITE_P_WIZARD 0
 #define SPRITE_E_WIZARD (SPRITE_P_WIZARD+1)
