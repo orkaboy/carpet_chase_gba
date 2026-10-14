@@ -25,7 +25,7 @@ int main(void)
     init_gfx();
     init_game();
 
-    render_text("     Wizard!");
+    render_text(12, "Wizard!", RGB15(0,0,0));
 
     // Start the Maxmod music on loop
     mmStart(MOD_ARABIA_2, MM_PLAY_LOOP);

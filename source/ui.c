@@ -80,8 +80,14 @@ int ascii_to_tid(char glyph) {
 #define TEXT_START_X    7
 #define TEXT_STOP_X     (TEXT_START_X+12)
 
-void render_text(char* text) {
-    int x = TEXT_START_X;
+INLINE void set_text_color(COLOR col) {
+    pal_bg_mem[PAL_UI*16+TEXT_COL_IDX] = col;
+}
+
+void render_text(int xoff, char* text, COLOR col) {
+    set_text_color(col);
+
+    int x = xoff;
     for(int i = 0; x < TEXT_STOP_X && text[i] != '\0'; ++x, ++i) {
         int tid = ascii_to_tid(text[i]);
         se_mem[TEXT_SBB][x] = SE_PALBANK(PAL_UI) | tid;

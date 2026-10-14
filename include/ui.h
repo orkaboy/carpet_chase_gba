@@ -6,6 +6,6 @@
 void draw_player_hp(void);
 void draw_boss_hp(void);
 
-void render_text(char* text);
+void render_text(int xoff, char* text, COLOR col);
 
 #endif
