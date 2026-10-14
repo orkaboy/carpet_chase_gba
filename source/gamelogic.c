@@ -65,7 +65,33 @@ void update_game(void) {
     update_spells();
 
     // TODO: Check collisions
-
+    spell_t* s = spell_pool;
+    for(int i = 0; i < NUM_SPELLS; ++i, s++) {
+        if(s->alive) {
+            update_bb(BB_SPELL, fx2int(s->x) - SPELL_COLL_W/2, fx2int(s->y) - SPELL_COLL_H/2, SPELL_COLL_W, SPELL_COLL_H);
+            if(i < NUM_E_SPELLS) { // Enemy attacking player/shield
+                if(check_collision(BB_SPELL, BB_SHIELD)) {
+                    end_spell(i);
+                } else if(check_collision(BB_SPELL, BB_PLAYER)) {
+                    end_spell(i);
+                    // TODO: Hit FX player
+                    if(player.hp) {
+                        player.hp--;
+                        // TODO: Check dead
+                    }
+                }
+            } else { // Player attacking boss
+                if(check_collision(BB_SPELL, BB_BOSS)) {
+                    end_spell(i);
+                    // TODO: Hit FX boss
+                    if(boss.hp) {
+                        boss.hp--;
+                        // TODO: Check dead
+                    }
+                }
+            }
+        }
+    }
 
     // Set the new positions
     move_wizard(&boss, 0, 0);
