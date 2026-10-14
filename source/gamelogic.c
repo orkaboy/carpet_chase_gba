@@ -1,9 +1,12 @@
 #include "gamelogic.h"
 
 #include <tonc.h>
+#include <maxmod.h>
+#include "soundbank.h"
 
 #include "gamestate.h"
 #include "collision.h"
+#include "spell.h"
 
 // Keep an array of bounding boxes for collision rather than creating them each frame
 #define BB_PLAYER 0
@@ -21,6 +24,8 @@ void _update_bb(int index, int x, int y, int w, int h) {
     bb->bottom = y + h;
 }
 
+static int player_spell_cd = 0;
+
 void update_game(void) {
     // ============================
     // Input section
@@ -32,11 +37,12 @@ void update_game(void) {
         SoftReset();
     }
     // Fire
-    if(key_hit(KEY_A)) {
-        // TODO: Fire button
-        boss.hp--;
+    if(key_held(KEY_A) && player_spell_cd == 0) {
+        spawn_player_spell();
+        player_spell_cd = PLAYER_SPELL_CD;
+        mmEffect(SFX_LASER);
     }
-    
+
     // Player movement logic
     // Fetch +1,0,-1 on X and Y D-pad
     int xdir = key_tri_horz();
@@ -51,10 +57,17 @@ void update_game(void) {
     restrain_wizard(&player);
 
     // ============================
+    // Timers
+    // ============================
+    player_spell_cd = (player_spell_cd > 0) ? player_spell_cd-1 : 0;
+
+    // ============================
     // Logic section
     // ============================
     update_wizard_frame(&player);
     update_wizard_frame(&boss);
+
+    update_spells();
 
     // Set the new positions
     move_wizard(&boss, 0, 0);

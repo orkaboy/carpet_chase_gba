@@ -7,6 +7,11 @@
 #define SCREEN_WIDTH 240
 #define SCREEN_HEIGHT 160
 
+#define SCREEN_OOB_L    int2fx(-16)
+#define SCREEN_OOB_R    int2fx(SCREEN_WIDTH+16)
+#define SCREEN_OOB_T    int2fx(-16)
+#define SCREEN_OOB_B    int2fx(SCREEN_HEIGHT+16)
+
 #define BORDER_LEFT     int2fx(8)
 #define BORDER_RIGHT    int2fx(SCREEN_WIDTH - 8)
 #define BORDER_BOTTOM   int2fx(SCREEN_HEIGHT - 16)
@@ -18,6 +23,8 @@
 #define P_SPEED_SIDEWAYS float2fx(1.5)
 #define P_SPEED_UP float2fx(1.0)
 #define P_SPEED_DOWN float2fx(1.75)
+
+#define PLAYER_SPELL_CD 10
 
 extern wizard_t player;
 extern wizard_t boss;

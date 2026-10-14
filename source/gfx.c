@@ -7,6 +7,7 @@
 
 #include "gamestate.h"
 #include "ui.h"
+#include "spell.h"
 
 // OAM shadow buffer
 OBJ_ATTR obj_buffer[NUM_HW_SPRITES];
@@ -70,6 +71,8 @@ void update_gfx(void) {
 
     draw_player_hp();
     draw_boss_hp();
+
+    draw_spells();
 }
 
 int bg_y_pos = 0;

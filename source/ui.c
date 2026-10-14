@@ -3,6 +3,8 @@
 #include "gamestate.h"
 #include "gfx.h"
 
+#define GLOW_ID             5
+
 #define EMPTY_TID           47
 #define FILLED_HEART_TID    48
 #define EMPTY_HEART_TID     49

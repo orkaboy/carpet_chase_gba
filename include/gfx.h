@@ -48,7 +48,7 @@ INLINE void draw_sprite(int hwsprite, int tid) {
 }
 
 INLINE void hide_sprite(int hwsprite) {
-    oam_init(&obj_buffer[hwsprite], 1);
+    obj_set_attr(&obj_buffer[hwsprite], ATTR0_HIDE, 0, 0);
 }
 
 #define SPRITE_SIZE 16
