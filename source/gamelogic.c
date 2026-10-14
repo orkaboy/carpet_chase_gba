@@ -74,7 +74,8 @@ void update_game(void) {
                     end_spell(i);
                 } else if(check_collision(BB_SPELL, BB_PLAYER)) {
                     end_spell(i);
-                    // TODO: Hit FX player
+                    player.hit_timer = HITFX_TIMER;
+                    // TODO: Hit SFX player
                     if(player.hp) {
                         player.hp--;
                         // TODO: Check dead
@@ -83,7 +84,7 @@ void update_game(void) {
             } else { // Player attacking boss
                 if(check_collision(BB_SPELL, BB_BOSS)) {
                     end_spell(i);
-                    // TODO: Hit FX boss
+                    boss.hit_timer = HITFX_TIMER;
                     if(boss.hp) {
                         boss.hp--;
                         // TODO: Check dead

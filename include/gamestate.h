@@ -31,6 +31,7 @@
 #define P_SPEED_DOWN float2fx(1.75)
 
 #define PLAYER_SPELL_CD 10
+#define HITFX_TIMER 5
 
 // In frames
 #define SHIELD_INIT_COOLDOWN SECONDS(10)

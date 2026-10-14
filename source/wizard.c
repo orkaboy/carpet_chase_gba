@@ -16,6 +16,7 @@ void init_wizard(wizard_t* wizard, int tile_off, int hwsprite, int hp) {
     wizard->hwsprite = hwsprite;
     wizard->frame_time = 0;
     wizard->anim_frame = 0;
+    wizard->hit_timer = 0;
 }
 
 void move_wizard(wizard_t* wizard, FIXED dx, FIXED dy) {
@@ -40,6 +41,10 @@ void draw_wizard(wizard_t* wizard) {
 }
 
 void update_wizard_frame(wizard_t* wizard) {
+    if(wizard->hit_timer) {
+        wizard->hit_timer--;
+    }
+    int pal = (wizard->hit_timer) ? PAL_SPRFX : PAL_SPR;
     // Tick animation
     wizard->frame_time++;
     if(wizard->frame_time >= WIZARD_ANIM_TIME) {
@@ -52,6 +57,6 @@ void update_wizard_frame(wizard_t* wizard) {
     // Update shadow OAM
     draw_sprite(
         wizard->hwsprite,
-        wizard->tile_off+4*wizard->anim_frame
+        (wizard->tile_off+4*wizard->anim_frame) | ATTR2_PALBANK(pal)
     );
 }

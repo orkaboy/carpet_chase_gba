@@ -11,6 +11,7 @@ typedef struct wizard_t {
     int hwsprite;
     int frame_time;
     int anim_frame;
+    int hit_timer;
 } wizard_t;
 
 void init_wizard(wizard_t* wizard, int tile_off, int hwsprite, int hp);

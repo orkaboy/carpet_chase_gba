@@ -9,6 +9,8 @@
 #include "ui.h"
 #include "spell.h"
 
+#define PALETTE_SIZE 16
+
 // OAM shadow buffer
 OBJ_ATTR obj_buffer[NUM_HW_SPRITES];
 
@@ -26,9 +28,24 @@ void init_sprites(void) {
 
 void init_gfx(void) {
     // Load palettes
-	memcpy16(&pal_bg_mem[PAL_UI*16], fontPal, fontPalLen / sizeof(u16));
-	memcpy16(&pal_bg_mem[PAL_BG*16], bgPal, bgPalLen / sizeof(u16));
-	memcpy16(&pal_obj_mem[PAL_SPR*16], spritesPal, spritesPalLen / sizeof(u16));
+	memcpy16(&pal_bg_mem[PAL_UI*PALETTE_SIZE], fontPal, fontPalLen / sizeof(u16));
+	memcpy16(&pal_bg_mem[PAL_BG*PALETTE_SIZE], bgPal, bgPalLen / sizeof(u16));
+	memcpy16(&pal_obj_mem[PAL_SPR*PALETTE_SIZE], spritesPal, spritesPalLen / sizeof(u16));
+    // Generate Sprite FX palette
+    {
+        COLOR fxPal[PALETTE_SIZE] = {
+            RGB15(0,0,0),
+            // Player colors
+            RGB15(255, 0, 69), RGB15(149, 0, 0), RGB15(79, 7, 33),
+            // Boss colors
+            RGB15(157, 246, 251), RGB15(60, 164, 211), RGB15(0, 61, 185),
+            // Unused
+            RGB15(0,0,0),
+            RGB15(0,0,0), RGB15(0,0,0), RGB15(0,0,0), RGB15(0,0,0),
+            RGB15(0,0,0), RGB15(0,0,0), RGB15(0,0,0), RGB15(0,0,0)
+        };
+        memcpy16(&pal_obj_mem[PAL_SPRFX*PALETTE_SIZE], fxPal, 2*PALETTE_SIZE);
+    } 
 
     // Load tiles (BG layers)
     memcpy32(&tile_mem[BG1_CBB][0], bgTiles, bgTilesLen / sizeof(u32));

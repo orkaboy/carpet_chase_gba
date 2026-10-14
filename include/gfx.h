@@ -17,6 +17,7 @@
 #define PAL_BG 1
 // Sprite palettes
 #define PAL_SPR 0
+#define PAL_SPRFX 1
 
 
 // Define sprite positions in OAM
