@@ -74,9 +74,10 @@ void update_shield(shield_t* s) {
         }
         break;
     case S_HELD:
-        // TODO: Have a button trigger this?
-        s->state = S_ACTIVE;
-        s->cooldown = SHIELD_DURATION;
+        if(key_hit(KEY_B)) {
+            s->state = S_ACTIVE;
+            s->cooldown = SHIELD_DURATION;
+        }
         break;
     case S_ACTIVE:
         s->x = player.x;
