@@ -57,7 +57,7 @@ void update_shield(shield_t* s) {
         // Check for OOB
         if(s->y > SCREEN_OOB_B) {
             s->state = S_INIT;
-            hide_sprite(SPRITE_SHIELD);
+            obj_hide(&obj_buffer[SPRITE_SHIELD]);
         } else {
             // Check for pickup
             update_bb(
@@ -69,7 +69,7 @@ void update_shield(shield_t* s) {
             );
             if(check_collision(BB_PLAYER, BB_SHIELD)) {
                 s->state = S_HELD;
-                hide_sprite(SPRITE_SHIELD);
+                obj_hide(&obj_buffer[SPRITE_SHIELD]);
             }
         }
         break;
@@ -94,7 +94,7 @@ void update_shield(shield_t* s) {
         // Check expiration
         s->cooldown--;
         if(s->cooldown <= 0) {
-            hide_sprite(SPRITE_SHIELD);
+            obj_hide(&obj_buffer[SPRITE_SHIELD]);
             s->state = S_INIT;
         }
         break;

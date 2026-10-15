@@ -73,5 +73,5 @@ void draw_spells(void) {
 void end_spell(int index) {
     spell_pool[index].alive = 0;
     // Hide sprite
-    hide_sprite(SPRITE_E_SPELL0 + index);
+    obj_hide(&obj_buffer[SPRITE_E_SPELL0 + index]);
 }
