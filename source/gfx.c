@@ -44,7 +44,7 @@ void init_gfx(void) {
             RGB15(0,0,0), RGB15(0,0,0), RGB15(0,0,0), RGB15(0,0,0),
             RGB15(0,0,0), RGB15(0,0,0), RGB15(0,0,0), RGB15(0,0,0)
         };
-        memcpy16(&pal_obj_mem[PAL_SPRFX*PALETTE_SIZE], fxPal, 2*PALETTE_SIZE);
+        memcpy16(&pal_obj_mem[PAL_SPRFX*PALETTE_SIZE], fxPal, PALETTE_SIZE);
     } 
 
     // Load tiles (BG layers)
