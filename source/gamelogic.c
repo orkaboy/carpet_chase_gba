@@ -71,7 +71,7 @@ void update_game(void) {
         if(s->alive) {
             update_bb(BB_SPELL, fx2int(s->x) - SPELL_COLL_W/2, fx2int(s->y) - SPELL_COLL_H/2, SPELL_COLL_W, SPELL_COLL_H);
             if(i < NUM_E_SPELLS) { // Enemy attacking player/shield
-                if(check_collision(BB_SPELL, BB_SHIELD)) {
+                if(is_shield_active(&shield) && check_collision(BB_SPELL, BB_SHIELD)) {
                     end_spell(i);
                 } else if(check_collision(BB_SPELL, BB_PLAYER)) {
                     end_spell(i);

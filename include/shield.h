@@ -22,5 +22,8 @@ typedef struct shield_t {
 
 void init_shield(shield_t* s);
 void update_shield(shield_t* s);
+INLINE int is_shield_active(shield_t* s) {
+    return s->state == S_ACTIVE;
+}
 
 #endif
