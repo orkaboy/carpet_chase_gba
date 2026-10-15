@@ -154,5 +154,17 @@ void update_game(void) {
         update_boss_ai(&boss_ai);
     } else {
         _update_death_effect(&boss);
+        // Ragebait check
+        update_bb(
+            BB_BOSS,
+            fx2int(boss.deadx)-BOSS_HITBOX/2,
+            fx2int(boss.deady)-BOSS_HITBOX/2,
+            BOSS_HITBOX,
+            BOSS_HITBOX
+        );
+        if(is_wizard_alive(&player) && check_collision(BB_BOSS, BB_PLAYER)) {
+            player.hp = 0;
+            _death_effect(&player);
+        }
     }
 }
