@@ -26,26 +26,28 @@ void init_sprites(void) {
     draw_sprite(SPRITE_E_CARPET, 32);
 }
 
+//! Create a 15bit BGR color, using 8bit components
+#define RGB8_(red, green, blue) ((red>>3) + ((green>>3)<<5) + ((blue>>3)<<10))
+
+const COLOR fxPal[PALETTE_SIZE] = {
+    RGB8_(0,0,0),
+    // Player colors
+    RGB8_(255, 0, 69), RGB8_(149, 0, 0), RGB8_(79, 0, 0),
+    // Boss colors
+    RGB8_(157, 246, 251), RGB8_(60, 164, 211), RGB8_(0, 61, 185),
+    // Unused
+    RGB8_(0,0,0),
+    RGB8_(0,0,0), RGB8_(0,0,0), RGB8_(0,0,0), RGB8_(0,0,0),
+    RGB8_(0,0,0), RGB8_(0,0,0), RGB8_(0,0,0), RGB8_(0,0,0)
+};
+
 void init_gfx(void) {
     // Load palettes
 	memcpy16(&pal_bg_mem[PAL_UI*PALETTE_SIZE], fontPal, fontPalLen / sizeof(u16));
 	memcpy16(&pal_bg_mem[PAL_BG*PALETTE_SIZE], bgPal, bgPalLen / sizeof(u16));
 	memcpy16(&pal_obj_mem[PAL_SPR*PALETTE_SIZE], spritesPal, spritesPalLen / sizeof(u16));
     // Generate Sprite FX palette
-    {
-        COLOR fxPal[PALETTE_SIZE] = {
-            RGB15(0,0,0),
-            // Player colors
-            RGB15(255, 0, 69), RGB15(149, 0, 0), RGB15(79, 7, 33),
-            // Boss colors
-            RGB15(157, 246, 251), RGB15(60, 164, 211), RGB15(0, 61, 185),
-            // Unused
-            RGB15(0,0,0),
-            RGB15(0,0,0), RGB15(0,0,0), RGB15(0,0,0), RGB15(0,0,0),
-            RGB15(0,0,0), RGB15(0,0,0), RGB15(0,0,0), RGB15(0,0,0)
-        };
-        memcpy16(&pal_obj_mem[PAL_SPRFX*PALETTE_SIZE], fxPal, PALETTE_SIZE);
-    } 
+    memcpy16(&pal_obj_mem[PAL_SPRFX*PALETTE_SIZE], fxPal, PALETTE_SIZE);
 
     // Load tiles (BG layers)
     memcpy32(&tile_mem[BG1_CBB][0], bgTiles, bgTilesLen / sizeof(u32));
