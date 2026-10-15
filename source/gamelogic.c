@@ -83,34 +83,30 @@ void _handle_collisions(void) {
             if(i < NUM_E_SPELLS) { // Enemy attacking player/shield
                 if(is_shield_active(&shield) && check_collision(BB_SPELL, BB_SHIELD)) {
                     end_spell(i);
-                } else if(check_collision(BB_SPELL, BB_PLAYER)) {
+                } else if(is_wizard_alive(&player) && check_collision(BB_SPELL, BB_PLAYER)) {
                     end_spell(i);
                     player.hit_timer = HITFX_TIMER;
+                    player.hp--;
+                    // Check dead
                     if(is_wizard_alive(&player)) {
-                        player.hp--;
-                        // Check dead
-                        if(is_wizard_alive(&player)) {
-                            // Hit SFX player
-                            const int lut[] = {SFX_OOF1, SFX_OOF2, SFX_OOF3};
-                            int r = qran_range(0, 3);
-                            mmEffect(lut[r]);
-                        } else {
-                            _death_effect(&player);
-                            // TODO: Game over
-                        }
+                        // Hit SFX player
+                        const int lut[] = {SFX_OOF1, SFX_OOF2, SFX_OOF3};
+                        int r = qran_range(0, 3);
+                        mmEffect(lut[r]);
+                    } else {
+                        _death_effect(&player);
+                        // TODO: Game over
                     }
                 }
             } else { // Player attacking boss
-                if(check_collision(BB_SPELL, BB_BOSS)) {
+                if(is_wizard_alive(&boss) && check_collision(BB_SPELL, BB_BOSS)) {
                     end_spell(i);
                     boss.hit_timer = HITFX_TIMER;
-                    if(is_wizard_alive(&boss)) {
-                        boss.hp--;
-                        // Check dead
-                        if(is_wizard_dead(&boss)) {
-                            _death_effect(&boss);
-                            // TODO: Game won
-                        }
+                    boss.hp--;
+                    // Check dead
+                    if(is_wizard_dead(&boss)) {
+                        _death_effect(&boss);
+                        // TODO: Game won
                     }
                 }
             }
