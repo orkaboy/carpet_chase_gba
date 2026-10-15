@@ -1,2 +1,2 @@
 # UI layer. 4bpp BG tiles. UI, hp bar and font. One BG palette (16-colors)
--gB4 -pn 32
+-gB4 -pn 16

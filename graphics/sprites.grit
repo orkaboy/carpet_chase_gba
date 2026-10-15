@@ -1,2 +1,2 @@
 # Sprites. 4bpp, 1 palette. 16x16 meta tiles
--gB4 -Mh 2 -Mw 2 -pn 32
+-gB4 -Mh 2 -Mw 2 -pn 16
