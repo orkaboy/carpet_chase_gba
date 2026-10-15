@@ -95,7 +95,8 @@ void _handle_collisions(void) {
                         mmEffect(lut[r]);
                     } else {
                         _death_effect(&player);
-                        // TODO: Game over
+                        // Game over
+                        render_text(10, "You lose!", RGB8(255, 0, 0));
                     }
                 }
             } else { // Player attacking boss
@@ -106,7 +107,8 @@ void _handle_collisions(void) {
                     // Check dead
                     if(is_wizard_dead(&boss)) {
                         _death_effect(&boss);
-                        // TODO: Game won
+                        // Game won
+                        render_text(10, "You win!", RGB8(0, 255, 0));
                     }
                 }
             }
@@ -161,6 +163,8 @@ void update_game(void) {
         if(is_wizard_alive(&player) && check_collision(BB_BOSS, BB_PLAYER)) {
             player.hp = 0;
             _death_effect(&player);
+            // Game over
+            render_text(10, "You wose?", RGB8(255, 0, 0));
         }
     }
 }

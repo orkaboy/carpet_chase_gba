@@ -14,10 +14,6 @@
 // OAM shadow buffer
 OBJ_ATTR obj_buffer[NUM_HW_SPRITES];
 
-INLINE void clear_ui(void) {
-    memset16(&se_mem[TEXT_SBB][0], SE_PALBANK(PAL_UI) | 47, 32);
-}
-
 void init_sprites(void) {
     // Init wizards
     draw_sprite(SPRITE_P_WIZARD, 0);
@@ -25,9 +21,6 @@ void init_sprites(void) {
     draw_sprite(SPRITE_P_CARPET, 32);
     draw_sprite(SPRITE_E_CARPET, 32);
 }
-
-//! Create a 15bit BGR color, using 8bit components
-#define RGB8_(red, green, blue) ((red>>3) + ((green>>3)<<5) + ((blue>>3)<<10))
 
 const COLOR fxPal[PALETTE_SIZE] = {
     RGB8_(0,0,0),

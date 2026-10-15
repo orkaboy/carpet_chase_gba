@@ -19,14 +19,29 @@
 #define BOSS_HP_UI_START_X  27
 #define BOSS_HP_SEGMENTS    8
 
+void force_draw_player_hp(void) {
+    for(int i = 0; i < PLAYER_MAX_HP; ++i) {
+        int tile = (player.hp > i) ? FILLED_HEART_TID : EMPTY_HEART_TID;
+        se_mem[TEXT_SBB][HP_UI_START_X+i] = SE_PALBANK(PAL_UI) | tile;
+    }
+}
+
+void force_draw_boss_hp(void) {
+    int segments = boss.hp >> 2;
+    se_mem[TEXT_SBB][BOSS_HP_UI_START_X+1] = SE_PALBANK(PAL_UI) | SKULL_TID;
+    for(int i = 0; i < BOSS_HP_SEGMENTS; ++i) {
+        int current_segment = (1+i) * BOSS_HP_SEGMENTS;
+        int tile = (segments < current_segment) ? PART_BAR_TID+(segments % BOSS_HP_SEGMENTS) : FULL_BAR_TID;
+        tile = ((segments + BOSS_HP_SEGMENTS) < current_segment) ? EMPTY_TID : tile;
+        se_mem[TEXT_SBB][BOSS_HP_UI_START_X-i] = SE_PALBANK(PAL_UI) | tile;
+    }
+}
+
 void draw_player_hp(void) {
     static int prev_hp = 0;
     if(player.hp != prev_hp) {
         prev_hp = player.hp;
-        for(int i = 0; i < PLAYER_MAX_HP; ++i) {
-            int tile = (prev_hp > i) ? FILLED_HEART_TID : EMPTY_HEART_TID;
-            se_mem[TEXT_SBB][HP_UI_START_X+i] = SE_PALBANK(PAL_UI) | tile;
-        }
+        force_draw_player_hp();
     }
 }
 
@@ -34,14 +49,7 @@ void draw_boss_hp(void) {
     static int prev_hp = 0;
     if(boss.hp != prev_hp) {
         prev_hp = boss.hp;
-        int segments = prev_hp >> 2;
-        se_mem[TEXT_SBB][BOSS_HP_UI_START_X+1] = SE_PALBANK(PAL_UI) | SKULL_TID;
-        for(int i = 0; i < BOSS_HP_SEGMENTS; ++i) {
-            int current_segment = (1+i) * BOSS_HP_SEGMENTS;
-            int tile = (segments < current_segment) ? PART_BAR_TID+(segments % BOSS_HP_SEGMENTS) : FULL_BAR_TID;
-            tile = ((segments + BOSS_HP_SEGMENTS) < current_segment) ? EMPTY_TID : tile;
-            se_mem[TEXT_SBB][BOSS_HP_UI_START_X-i] = SE_PALBANK(PAL_UI) | tile;
-        }
+        force_draw_boss_hp();
     }
 }
 
@@ -81,13 +89,13 @@ int ascii_to_tid(char glyph) {
 }
 
 #define TEXT_START_X    7
-#define TEXT_STOP_X     (TEXT_START_X+12)
+#define TEXT_STOP_X     (TEXT_START_X+13)
 
 INLINE void set_text_color(COLOR col) {
     pal_bg_mem[PAL_UI*16+TEXT_COL_IDX] = col;
 }
 
-void render_text(int xoff, char* text, COLOR col) {
+void render_text(int xoff, const char* text, COLOR col) {
     set_text_color(col);
 
     int x = xoff;
@@ -103,7 +111,7 @@ void render_text(int xoff, char* text, COLOR col) {
 #define COLOR_GLOW_TOP 250
 #define COLOR_GLOW_BOT 10
 static int _color_cnt = 0;
-static int _color_delta = 1;
+static int _color_delta = 16;
 
 void update_ui_glow(void) {
     _color_cnt += _color_delta;
@@ -114,5 +122,5 @@ void update_ui_glow(void) {
         _color_cnt = COLOR_GLOW_BOT;
         _color_delta *= -1;
     }
-    pal_bg_mem[PAL_UI*16+GLOW_COL_IDX] = RGB15(255, _color_cnt, _color_cnt);
+    pal_bg_mem[PAL_UI*16+GLOW_COL_IDX] = RGB8(255, _color_cnt, _color_cnt);
 }

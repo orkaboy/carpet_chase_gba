@@ -45,6 +45,10 @@
 // OAM shadow buffer
 extern OBJ_ATTR obj_buffer[NUM_HW_SPRITES];
 
+INLINE void clear_ui(void) {
+    memset16(&se_mem[TEXT_SBB][0], SE_PALBANK(PAL_UI) | 47, 32);
+}
+
 INLINE void draw_sprite(int hwsprite, int tid) {
     obj_set_attr(&obj_buffer[hwsprite], ATTR0_SQUARE, ATTR1_SIZE_16, ATTR2_PRIO(1) | ATTR2_PALBANK(PAL_SPR) | tid);
 }

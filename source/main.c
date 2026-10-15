@@ -5,6 +5,8 @@
 #include "gfx.h"
 #include "ui.h"
 
+#include "intro.h"
+
 #include <maxmod.h>
 #include "soundbank.h"
 #include "soundbank_bin.h"
@@ -25,10 +27,12 @@ int main(void)
     init_gfx();
     init_game();
 
-    render_text(12, "Wizard!", RGB15(0,0,0));
-
     // Start the Maxmod music on loop
     mmStart(MOD_ARABIA_2, MM_PLAY_LOOP);
+
+    run_intro();
+
+    render_text(12, "Wizard!", RGB8(0,0,0));
 
 	while(1)
 	{
