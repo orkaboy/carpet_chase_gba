@@ -12,10 +12,7 @@
 
 static int player_spell_cd = 0;
 
-void update_game(void) {
-    // ============================
-    // Input section
-    // ============================
+void _handle_input(void) {
     // libtonc: Update keypresses
     key_poll();
     // Check for reset (Se+St+L+R)
@@ -46,27 +43,10 @@ void update_game(void) {
     } else {
         // TODO: Death effect
     }
+}
 
-    // ============================
-    // Timers
-    // ============================
-    player_spell_cd = (player_spell_cd > 0) ? player_spell_cd-1 : 0;
-
-    update_ui_glow();
-
-    // ============================
-    // Logic section
-    // ============================
-    update_wizard_frame(&player);
-    update_wizard_frame(&boss);
-
-    update_bb(BB_PLAYER, fx2int(player.x)-PLAYER_HITBOX/2, fx2int(player.y)-PLAYER_HITBOX/2, PLAYER_HITBOX, PLAYER_HITBOX);
-    update_bb(BB_BOSS, fx2int(boss.x)-BOSS_HITBOX/2, fx2int(boss.y)-BOSS_HITBOX/2, BOSS_HITBOX, BOSS_HITBOX);
-
-    update_shield(&shield);
-    update_spells();
-
-    // TODO: Check collisions
+void _handle_collisions(void) {
+    // Check collisions
     spell_t* s = spell_pool;
     for(int i = 0; i < NUM_SPELLS; ++i, s++) {
         if(s->alive) {
@@ -109,6 +89,35 @@ void update_game(void) {
             }
         }
     }
+}
+
+void update_game(void) {
+    // ============================
+    // Input section
+    // ============================
+    _handle_input();
+
+    // ============================
+    // Timers
+    // ============================
+    player_spell_cd = (player_spell_cd > 0) ? player_spell_cd-1 : 0;
+
+    update_ui_glow();
+
+    // ============================
+    // Logic section
+    // ============================
+    update_wizard_frame(&player);
+    update_wizard_frame(&boss);
+
+    update_bb(BB_PLAYER, fx2int(player.x)-PLAYER_HITBOX/2, fx2int(player.y)-PLAYER_HITBOX/2, PLAYER_HITBOX, PLAYER_HITBOX);
+    update_bb(BB_BOSS, fx2int(boss.x)-BOSS_HITBOX/2, fx2int(boss.y)-BOSS_HITBOX/2, BOSS_HITBOX, BOSS_HITBOX);
+    // Note, uses BB_PLAYER for powerup pickup check
+    update_shield(&shield);
+    // Moves spells, but doesn't check collision
+    update_spells();
+
+    _handle_collisions();
 
     // ============================
     // AI section
