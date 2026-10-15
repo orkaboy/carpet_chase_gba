@@ -6,8 +6,8 @@
 typedef enum ins_type {
     WAIT = 0,
     MOVE,
-    MOVE_ABS,
-    SHOOT
+    SHOOT,
+    SHOOT_OFF
 } ins_type;
 
 typedef struct ai_instruction_t {
@@ -20,7 +20,7 @@ typedef struct boss_ai_t {
     const ai_instruction_t** cur_ins;
     int progress;
     int phase;
-    FIXED target_x;
+    int move_offset;
     // Wave motion
     FIXED wave_vely;
     int wave_dir;
