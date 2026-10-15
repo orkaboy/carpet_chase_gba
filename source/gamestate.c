@@ -9,8 +9,8 @@ wizard_t boss;
 boss_ai_t boss_ai;
 
 void init_game(void) {
-    init_wizard(&player, 0, SPRITE_P_WIZARD, PLAYER_MAX_HP);
-    init_wizard(&boss, 16, SPRITE_E_WIZARD, BOSS_MAX_HP);
+    init_wizard(&player, 0, SPRITE_P_WIZARD, AFFINE_P_WIZARD, PLAYER_MAX_HP);
+    init_wizard(&boss, 16, SPRITE_E_WIZARD, AFFINE_E_WIZARD, BOSS_MAX_HP);
     init_shield(&shield);
     init_boss_ai(&boss_ai);
 

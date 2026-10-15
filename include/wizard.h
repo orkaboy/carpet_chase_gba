@@ -3,18 +3,26 @@
 
 #include <tonc.h>
 
+#define WIZ_CARPET_OFFSET -5
+
 typedef struct wizard_t {
     FIXED x;
     FIXED y;
     int hp;
     int tile_off;
     int hwsprite;
+    int affine;
     int frame_time;
     int anim_frame;
     int hit_timer;
+    FIXED deadx;
+    FIXED deady;
+    FIXED deadvelx;
+    FIXED deadvely;
+    int deadtheta;
 } wizard_t;
 
-void init_wizard(wizard_t* wizard, int tile_off, int hwsprite, int hp);
+void init_wizard(wizard_t* wizard, int tile_off, int hwsprite, int affine, int hp);
 void move_wizard(wizard_t* wizard, FIXED dx, FIXED dy);
 void draw_wizard(wizard_t* wizard);
 void update_wizard_frame(wizard_t* wizard);

@@ -12,6 +12,35 @@
 
 static int player_spell_cd = 0;
 
+void _death_effect(wizard_t* wizard) {
+    mmEffect(SFX_DEATH);
+    // Fall off carpet
+    wizard->deadx = wizard->x;
+    wizard->deady = wizard->y + WIZ_CARPET_OFFSET;
+    int r = qran_range(0, 2*FIX_SCALE) - FIX_SCALE; // -1 to +1 (fixed)
+    wizard->deadvelx = r;
+    wizard->deadvely = float2fx(-1.5);
+    wizard->deadtheta = 0;
+    // Update obj_attr to prevent glitches 
+    update_wizard_frame(wizard);
+}
+
+void _update_death_effect(wizard_t* wizard) {
+    wizard->deadvely += float2fx(0.05);
+    wizard->deadx += wizard->deadvelx;
+    wizard->deady += wizard->deadvely;
+    wizard->deadtheta += (wizard->deadvelx < 0) ? DEATH_ROT_SPEED : -DEATH_ROT_SPEED;
+
+    OBJ_AFFINE *obj_aff_buffer = (OBJ_AFFINE*)obj_buffer;
+    obj_aff_rotate(&obj_aff_buffer[wizard->affine], wizard->deadtheta);
+
+    if(wizard->deady > SCREEN_OOB_B) {
+        wizard->deadvelx = wizard->deadvely = 0;
+        obj_hide(&obj_buffer[wizard->hwsprite]);
+        // TODO: Trigger end of game pause
+    }
+}
+
 void _handle_input(void) {
     // libtonc: Update keypresses
     key_poll();
@@ -41,7 +70,7 @@ void _handle_input(void) {
         move_wizard(&player, xdir * P_SPEED_SIDEWAYS, ydiff);
         restrain_wizard(&player);
     } else {
-        // TODO: Death effect
+        _update_death_effect(&player);
     }
 }
 
@@ -66,9 +95,8 @@ void _handle_collisions(void) {
                             int r = qran_range(0, 3);
                             mmEffect(lut[r]);
                         } else {
-                            mmEffect(SFX_DEATH);
+                            _death_effect(&player);
                             // TODO: Game over
-                            // TODO: Fall off carpet
                         }
                     }
                 }
@@ -80,9 +108,8 @@ void _handle_collisions(void) {
                         boss.hp--;
                         // Check dead
                         if(is_wizard_dead(&boss)) {
-                            mmEffect(SFX_DEATH);
+                            _death_effect(&boss);
                             // TODO: Game won
-                            // TODO: Fall off carpet
                         }
                     }
                 }
@@ -125,8 +152,7 @@ void update_game(void) {
     if(is_wizard_alive(&boss)) {
         update_boss_wave(&boss_ai);
         update_boss_ai(&boss_ai);
+    } else {
+        _update_death_effect(&boss);
     }
-
-    // Set the new sprite position
-    move_wizard(&boss, 0, 0);
 }

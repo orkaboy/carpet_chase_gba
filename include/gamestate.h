@@ -56,6 +56,8 @@
 #define BOSS_SPELL_SPEED int2fx(2)
 #define BOSS_SPELL_SPEED4 int2fx(3)
 
+#define DEATH_ROT_SPEED     1024
+
 extern wizard_t player;
 extern shield_t shield;
 extern wizard_t boss;

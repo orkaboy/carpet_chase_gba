@@ -19,6 +19,9 @@
 #define PAL_SPR 0
 #define PAL_SPRFX 1
 
+// Affine matrix indices
+#define AFFINE_P_WIZARD 0
+#define AFFINE_E_WIZARD 1
 
 // Define sprite positions in OAM
 #define SPRITE_P_WIZARD 0
