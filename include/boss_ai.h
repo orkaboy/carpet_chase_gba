@@ -7,7 +7,8 @@ typedef enum ins_type {
     WAIT = 0,
     MOVE,
     SHOOT,
-    SHOOT_OFF
+    SHOOT_OFF,
+    SUMMON
 } ins_type;
 
 typedef struct ai_instruction_t {

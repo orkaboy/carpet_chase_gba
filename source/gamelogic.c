@@ -9,6 +9,7 @@
 #include "spell.h"
 #include "ui.h"
 #include "boss_ai.h"
+#include "summon.h"
 
 static int player_spell_cd = 0;
 
@@ -134,6 +135,8 @@ void update_game(void) {
     // ============================
     update_wizard_frame(&player);
     update_wizard_frame(&boss);
+
+    update_summons();
 
     update_bb(BB_PLAYER, fx2int(player.x)-PLAYER_HITBOX/2, fx2int(player.y)-PLAYER_HITBOX/2, PLAYER_HITBOX, PLAYER_HITBOX);
     update_bb(BB_BOSS, fx2int(boss.x)-BOSS_HITBOX/2, fx2int(boss.y)-BOSS_HITBOX/2, BOSS_HITBOX, BOSS_HITBOX);

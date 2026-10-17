@@ -2,6 +2,7 @@
 
 #include "gfx.h"
 #include "spell.h"
+#include "summon.h"
 
 wizard_t player;
 shield_t shield;
@@ -15,6 +16,7 @@ void init_game(void) {
     init_boss_ai(&boss_ai);
 
     init_spell_manager();
+    init_summons();
 
     move_wizard(&player, int2fx(SCREEN_WIDTH/2), int2fx(SCREEN_HEIGHT - 32));
     move_wizard(&boss, int2fx(SCREEN_WIDTH/2), int2fx(48));

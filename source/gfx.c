@@ -8,6 +8,7 @@
 #include "gamestate.h"
 #include "ui.h"
 #include "spell.h"
+#include "summon.h"
 
 #define PALETTE_SIZE 16
 
@@ -84,6 +85,7 @@ void update_gfx(void) {
     draw_player_hp();
     draw_boss_hp();
 
+    draw_summons();
     draw_spells();
 }
 

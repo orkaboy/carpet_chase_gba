@@ -2,6 +2,7 @@
 
 #include "gamestate.h"
 #include "spell.h"
+#include "summon.h"
 
 #define BOSS_BOUNDS_L (20)
 #define BOSS_BOUNDS_R (SCREEN_WIDTH-20)
@@ -36,6 +37,10 @@ const ai_instruction_t s_o_r1 = {SHOOT_OFF, C_FLOAT2FX(  8.0), 0};
 const ai_instruction_t s_o_r2 = {SHOOT_OFF, C_FLOAT2FX( 16.0), 0};
 const ai_instruction_t s_o_r3 = {SHOOT_OFF, C_FLOAT2FX( 24.0), 0};
 const ai_instruction_t s_o_r4 = {SHOOT_OFF, C_FLOAT2FX( 32.0), 0};
+// Summon
+const ai_instruction_t s_sum_s = {SUMMON, 0, SECONDS(3.1)};
+const ai_instruction_t s_sum_m = {SUMMON, 0, SECONDS(6.1)};
+const ai_instruction_t s_sum_l = {SUMMON, 0, SECONDS(9.1)};
 
 #define MOVE_OFFSET_DURATION(ins) (4 * ins->duration)
 #define GET_MOVE_OFFSET(ins) (ins->duration * fx2int(ins->velx))
@@ -91,15 +96,18 @@ const ai_instruction_t* pattern_sweep_r2[] = {&s_s_l2, &s_s, &mv_s_r1, &s_s_r2, 
 const ai_instruction_t* pattern_broadside[] = {&s_s, &s_o_l2, &s_o_r2, &s_o_l4, &s_o_r4, &w_1s, NULL};
 const ai_instruction_t* pattern_spray2[] = {&s_s_l2, &s_s_r2, &mv_s_l2, &s_s_l2, &s_s_r2, &mv_s_r2, &s_s_l2, &s_s_r2, &mv_s_l2, &s_s_l2, &s_s_r2, &mv_s_r2, &s_s_l2, &s_s_r2, &w_750ms, NULL};
 const ai_instruction_t* pattern_weave[] = {&mv_s_l1f, &s_s_l2, &mv_s_r1f, &mv_s_r1f, &s_s_r2, &mv_s_l1f, NULL};
+const ai_instruction_t* pattern_summon1[] = {&s_sum_s, &w_1s};
 // Phase 3+
 const ai_instruction_t* pattern_broadside2[] = {&s_s, &w_125ms, &s_o_l1, &s_o_r1, &w_125ms, &s_o_l2, &s_o_r2, &w_125ms, &s_o_l3, &s_o_r3, &w_125ms, &s_o_l4, &s_o_r4, &w_1s, NULL};
 const ai_instruction_t* pattern_tricky_r[] = {&mv_s_r1, &s_s_r1, &mv_s_r1, &s_s_r1, &mv_s_r1, &s_s_r1, &mv_s_r1, &s_s_r1, &s_o_l4, &s_o_r4, &mv_s_l4f, &w_1s, NULL};
 const ai_instruction_t* pattern_tricky_l[] = {&mv_s_l1, &s_s_l1, &mv_s_l1, &s_s_l1, &mv_s_l1, &s_s_l1, &mv_s_l1, &s_s_l1, &s_o_r4, &s_o_l4, &mv_s_r4f, &w_1s, NULL};
+const ai_instruction_t* pattern_summon2[] = {&s_sum_m, &w_1s};
 // Phase 4
 const ai_instruction_t* pattern_sweep_l3[] = {&s_s_r1, &s_s_r2, &s_s, &mv_s_l1, &s_s_l1, &s_s_l2, &mv_s_l1, &s_s_l1, &s_s_l2, &mv_s_l1, &s_s_l1, &s_s_l2, &mv_s_l1, &w_500ms, NULL};
 const ai_instruction_t* pattern_sweep_r3[] = {&s_s_l1, &s_s_l2, &s_s, &mv_s_r1, &s_s_r1, &s_s_r2, &mv_s_r1, &s_s_r1, &s_s_r2, &mv_s_r1, &s_s_r1, &s_s_r2, &mv_s_r1, &w_500ms, NULL};
 const ai_instruction_t* pattern_spray3[] = {&s_s, &s_s_r1, &w_125ms, &s_s, &s_s_l1, &w_125ms, &s_s, &s_s_r1, &w_125ms, &s_s, &s_s_l1, &w_125ms, &s_s, &s_s_r1, &w_125ms, &s_s, &s_s_l1, &w_125ms, NULL};
 const ai_instruction_t* pattern_weave2[] = {&mv_s_l4f, &s_s_r1, &mv_s_r4f, &s_s, &s_s_l1, &mv_s_r4f, &s_s, &s_s_r1, &mv_s_l4f, &s_s, &s_s_l1, &mv_s_l4f, &s_s, &s_s_r1, &mv_s_r4f, &s_s, &s_s_l1, &w_500ms, NULL};
+const ai_instruction_t* pattern_summon3[] = {&s_sum_l, &s_sum_l, &w_1s};
 
 void init_boss_ai(boss_ai_t* ai) {
     ai->cur_ins = pattern_start;
@@ -142,20 +150,28 @@ int _handle_instruction(boss_ai_t* ai) {
             }
             break;
         case SHOOT: {
-            return spawn_enemy_spell(
+            spawn_enemy_spell(
                 boss.x,
                 boss.y + int2fx(8),
                 cur_ins->velx,
                 (ai->phase >= 3) ? BOSS_SPELL_SPEED4 : BOSS_SPELL_SPEED
             );
+            return 1;
         }
         case SHOOT_OFF: {
-            return spawn_enemy_spell(
+            spawn_enemy_spell(
                 boss.x + cur_ins->velx,
                 boss.y + int2fx(8),
                 0,
                 (ai->phase >= 3) ? BOSS_SPELL_SPEED4 : BOSS_SPELL_SPEED
             );
+            return 1;
+        }
+        case SUMMON: {
+            FIXED randx = qran_range(int2fx(BOSS_BOUNDS_L), int2fx(BOSS_BOUNDS_R));
+            FIXED randy = qran_range(int2fx(16), int2fx(48));
+            spawn_summon(boss.x, boss.y + int2fx(16), randx, randy, cur_ins->duration);
+            return 1;
         }
         default: break;
     }
@@ -219,12 +235,13 @@ void update_boss_ai(boss_ai_t* ai) {
                 }
                 // Player is ahead
                 else if(xdist < int2fx(16)) {
-                    int r = qran_range(0, 4);
+                    int r = qran_range(0, 5);
                     const ai_instruction_t** lut[] = {
                         pattern_fan,
                         pattern_spray2,
                         pattern_broadside,
-                        pattern_weave
+                        pattern_weave,
+                        pattern_summon1,
                     };
                     ai->cur_ins = lut[r];
                 }
@@ -242,14 +259,15 @@ void update_boss_ai(boss_ai_t* ai) {
                 }
                 // Player is ahead
                 else if(xdist < int2fx(16)) {
-                    int r = qran_range(0, 6);
+                    int r = qran_range(0, 7);
                     const ai_instruction_t** lut[] = {
                         pattern_spray2,
                         pattern_broadside,
                         pattern_broadside2,
                         pattern_weave,
                         pattern_tricky_l,
-                        pattern_tricky_r
+                        pattern_tricky_r,
+                        pattern_summon2
                     };
                     ai->cur_ins = lut[r];
                 }
@@ -267,14 +285,15 @@ void update_boss_ai(boss_ai_t* ai) {
                 }
                 // Player is ahead
                 else if(xdist < int2fx(16)) {
-                    int r = qran_range(0, 6);
+                    int r = qran_range(0, 7);
                     const ai_instruction_t** lut[] = {
                         pattern_spray3,
                         pattern_broadside2,
                         pattern_weave,
                         pattern_weave2,
                         pattern_tricky_l,
-                        pattern_tricky_r
+                        pattern_tricky_r,
+                        pattern_summon3
                     };
                     ai->cur_ins = lut[r];
                 }

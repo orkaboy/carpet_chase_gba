@@ -58,6 +58,9 @@
 
 #define DEATH_ROT_SPEED     1024
 
+#define SUMMON_SPELL_COOLDOWN   SECONDS(1)
+#define SUMMON_ACC              float2fx(0.1)
+
 extern wizard_t player;
 extern shield_t shield;
 extern wizard_t boss;
