@@ -12,6 +12,9 @@
 #define SHIELD_PU_NUM_FRAMES 2
 #define SHIELD_PU_COLL_SIZE 8
 
+#define SHIELD_HELD_DRAW_X
+#define SHIELD_HELD_DRAW_Y
+
 void init_shield(shield_t* s) {
     s->state = S_COOLDOWN;
     s->cooldown = SHIELD_INIT_COOLDOWN;
@@ -69,7 +72,9 @@ void update_shield(shield_t* s) {
             );
             if(check_collision(BB_PLAYER, BB_SHIELD)) {
                 s->state = S_HELD;
-                obj_hide(&obj_buffer[SPRITE_SHIELD]);
+                // Put shield sprite on GUI
+                obj_set_attr(&obj_buffer[SPRITE_SHIELD], ATTR0_SQUARE, ATTR1_SIZE_16, ATTR2_PRIO(0) | ATTR2_PALBANK(PAL_SPR) | SHIELD_PU_TID0);
+                obj_set_pos(&obj_buffer[SPRITE_SHIELD], -4, SCREEN_HEIGHT-12);
             }
         }
         break;
